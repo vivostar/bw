@@ -12,7 +12,7 @@ hierarchy:
 #   bigtopc02.vm_site.yaml
 
   - name: "site hiera data path"
-    path: "site.yaml"
+    path: "%{::fqdn}_site.yaml"
 #  - name: "hadoop hiera ha path"
 #    path: "bigtop/%{hadoop_hiera_ha_path}.yaml"
   - name: "bigtop cluster hiera data path"
