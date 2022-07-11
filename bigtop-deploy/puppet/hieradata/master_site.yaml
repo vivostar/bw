@@ -13,3 +13,4 @@ bigtop::bigtop_repo_uri: ["http://repos.bigtop.apache.org/releases/3.1.0/centos/
 hadoop_hive::common_config::hive_execution_engine: "tez"
 hadoop::common::use_tez: true
 hadoop::common_mapred_app::mapreduce_framework_name: "yarn-tez"
+hadoop::common_yarner_scheduler_cla::yarn_resourcemanagss: org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler

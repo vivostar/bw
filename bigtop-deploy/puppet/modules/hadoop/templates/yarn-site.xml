@@ -247,8 +247,4 @@
     <name>yarn.nodemanager.vmem-pmem-ratio</name>
     <value>100</value>
   </property>
-  <property>
-    <name>yarn.app.mapreduce.am.resource.memory-mb</name>
-    <value>16000</value>
-  </property>
 </configuration>
