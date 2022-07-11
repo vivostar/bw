@@ -7,5 +7,6 @@ bigtop::hadoop_head_node: "master"
 
 hadoop::hadoop_storage_dirs:
   - /data/1
-hadoop_cluster_node::cluster_components: [hdfs, yarn, hive, zookeeper]
+bigtop::roles_enabled: true
+bigtop::roles: ["namenode", "resourcemanager", "zookeeper-server"]
 bigtop::bigtop_repo_uri: ["http://repos.bigtop.apache.org/releases/3.1.0/centos/7/$basearch"]
