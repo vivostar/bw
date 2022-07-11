@@ -14,3 +14,5 @@ hadoop_hive::common_config::hive_execution_engine: "tez"
 hadoop::common::use_tez: true
 hadoop::common_mapred_app::mapreduce_framework_name: "yarn-tez"
 hadoop::common_yarner_scheduler_cla::yarn_resourcemanagss: org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler
+hadoop_hive::common_config::hive_tez_container_size: 1024
+hadoop_hive::common_config::hive_tez_cpu_vcores: 1
