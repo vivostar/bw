@@ -95,7 +95,7 @@
 
 <property>
    <name>hive.server2.enable.doAs</name>
-   <value>true</value>
+   <value><%= @hive_server2_enable_doAs %></value>
 </property>
 
 <property>
