@@ -7,7 +7,8 @@ bigtop::hadoop_head_node: "master"
 
 hadoop::hadoop_storage_dirs:
   - /data/1
-hadoop_cluster_node::cluster_components: [hdfs, yarn]
+bigtop::roles_enabled: true
+bigtop::roles: [datanode, nodemanager, mapred-app, httpfs-server]
 bigtop::bigtop_repo_uri: ["http://repos.bigtop.apache.org/releases/3.1.0/centos/7/$basearch"]
 hadoop::common::use_tez: true
 hadoop::common_mapred_app::mapreduce_framework_name: "yarn-tez"
