@@ -148,7 +148,7 @@ $roles_map = {
 
 class hadoop_cluster_node (
   $hadoop_security_authentication = hiera("hadoop::hadoop_security_authentication", "simple"),
-  $bigtop_real_users = [ 'jenkins', 'testuser', 'hudson' ],
+  $bigtop_real_users = [ 'jenkins', 'testuser', 'hudson', 'hue' ],
   $cluster_components = ["all"]
   ) {
 
