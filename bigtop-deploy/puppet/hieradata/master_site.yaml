@@ -18,6 +18,7 @@ bigtop::roles:
   - hive-server2
   - httpfs-server
   - oozie-server
+  - hadoop-client
 bigtop::bigtop_repo_uri: ["http://repos.bigtop.apache.org/releases/3.1.0/centos/7/$basearch"]
 hadoop_hive::common_config::hive_execution_engine: "tez"
 hadoop::common::use_tez: true
