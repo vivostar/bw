@@ -279,6 +279,11 @@
     <description>The name of the group of super-users.</description>
   </property>
 
+  <property>
+    <name>dfs.permissions.enabled</name>
+    <value>false</value>
+  </property>
+
   <!-- increase the number of datanode transceivers way above the default of 256
      - this is for hbase -->
   <property>
