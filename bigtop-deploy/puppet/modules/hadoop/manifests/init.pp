@@ -137,6 +137,7 @@ class hadoop ($hadoop_security_authentication = "simple",
   }
 
   class common_yarn (
+      $yarn_scheduler_capacity_maximum_am_resource_percent = "0.1",
       $yarn_data_dirs = suffix($hadoop::hadoop_storage_dirs, "/yarn"),
       $hadoop_ps_host,
       $hadoop_ps_port = "20888",
@@ -180,6 +181,11 @@ class hadoop ($hadoop_security_authentication = "simple",
         # wan't to give the keytab to.
         require => Package["hadoop-yarn"],
       }
+    }
+
+    file { "/etc/hadoop/conf/capacity-scheduler.xml":
+        content => template('hadoop/capacity-scheduler.xml'),
+        require => [Package["hadoop"]],
     }
 
     file {
@@ -873,7 +879,8 @@ class hadoop ($hadoop_security_authentication = "simple",
       ensure => running,
       hasstatus => true,
       subscribe => [Package["hadoop-yarn-resourcemanager"], File["/etc/hadoop/conf/hadoop-env.sh"], 
-                    File["/etc/hadoop/conf/yarn-site.xml"], File["/etc/hadoop/conf/core-site.xml"]],
+                    File["/etc/hadoop/conf/yarn-site.xml"], File["/etc/hadoop/conf/core-site.xml"],
+                    File["/etc/hadoop/conf/capacity-scheduler.xml"]],
       require => [ Package["hadoop-yarn-resourcemanager"] ],
     }
     Kerberos::Host_keytab <| tag == "mapreduce" |> -> Service["hadoop-yarn-resourcemanager"]
