@@ -17,8 +17,8 @@ docker run -d --name worker01 --hostname worker01 --network bigtop --privileged 
 echo -e "\033[32mCreating docker cluster worker02\033[0m"
 docker run -d --name worker02 --hostname worker02 --network bigtop --privileged -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro bigtop:3.1.0 /usr/sbin/init
 
-echo -e "\033[32mCreating docker cluster hue\033[0m"
-docker run -d --name hue -p 8888:8888 --hostname hue --network bigtop --privileged -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro hue:4.10.1
+# echo -e "\033[32mCreating docker cluster hue\033[0m"
+# docker run -d --name hue -p 8888:8888 --hostname hue --network bigtop --privileged -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro hue:4.10.1
 
 echo -e "\033[32mConfiguring hosts file\033[0m"
 MASTER_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' master`
@@ -31,10 +31,10 @@ docker exec worker01 bash -c "echo '$WORKER02_IP      worker02' >> /etc/hosts"
 docker exec worker02 bash -c "echo '$MASTER_IP      master' >> /etc/hosts"
 docker exec worker02 bash -c "echo '$WORKER01_IP      worker01' >> /etc/hosts"
 
-echo -e "\033[32mConfiguring hue hosts file\033[0m"
-docker exec --user root hue bash -c "echo '$MASTER_IP      master' >> /etc/hosts"
-docker exec --user root hue bash -c "echo '$WORKER01_IP      worker01' >> /etc/hosts"
-docker exec --user root hue bash -c "echo '$WORKER02_IP      worker02' >> /etc/hosts"
+# echo -e "\033[32mConfiguring hue hosts file\033[0m"
+# docker exec --user root hue bash -c "echo '$MASTER_IP      master' >> /etc/hosts"
+# docker exec --user root hue bash -c "echo '$WORKER01_IP      worker01' >> /etc/hosts"
+# docker exec --user root hue bash -c "echo '$WORKER02_IP      worker02' >> /etc/hosts"
 
 echo -e "\033[32mStarting deploy bigtop cluster worker01\033[0m"
 docker exec worker01 bash -c "puppet apply --detailed-exitcodes --parser future --hiera_config=/etc/puppet/hiera.yaml --modulepath=/bigtop_home/bigtop-deploy/puppet/modules:/etc/puppet/modules:/usr/share/puppet/modules:/etc/puppetlabs/code/modules:/etc/puppet/code/modules /bigtop_home/bigtop-deploy/puppet/manifests"
