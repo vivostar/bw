@@ -20,7 +20,7 @@ package org.apache.bigtop.bigpetstore.spark.generator
 // import com.github.rnowling.bps.datagenerator.datamodels.inputs.ZipcodeRecord
 import org.apache.bigtop.datagenerators.bigpetstore.cli.Simulation
 import org.apache.bigtop.datagenerators.bigpetstore.datamodels._ 
-import org.apache.bigtop.datagenerators.bigpetstore.{DataLoader,StoreGenerator,CustomerGenerator => CustGen, PurchasingModelGenerator,TransactionGenerator}
+import org.apache.bigtop.datagenerators.bigpetstore.DataLoader
 import org.apache.bigtop.datagenerators.samplers.SeedFactory
 import scala.collection.JavaConversions._
 import org.apache.spark.{SparkContext, SparkConf}
@@ -149,26 +149,8 @@ object SparkDriver {
     val transactionRDD = customerRDD.mapPartitionsWithIndex{
       (index, custIter) =>
         // Create a new RNG
-        val seedFactory = new SeedFactory(nextSeed ^ index)
         val transactionIter = custIter.map{
-        customer =>
-	  val products = productBC.value
-          //Create a new purchasing profile.
-          val profileGen = new PurchasingModelGenerator(products, seedFactory)
-          val profile = profileGen.generate()
-          val transGen = new TransactionGenerator(customer, profile, storesBC.value, products, seedFactory)
-          var transactions : List[Transaction] = List()
-	  var transaction = transGen.generate()
-
-          //Create a list of this customer's transactions for the time period
-          while(transaction.getDateTime() < simLen) {
-            if (transaction.getDateTime > BURNIN_TIME) {
-              transactions = transaction :: transactions
-            }
-            transaction = transGen.generate()
-          }
-          //The final result, we return the list of transactions produced above.
-	    transactions
+          customer => data.getTransactions
         }
       transactionIter
     }.flatMap(s => s)
