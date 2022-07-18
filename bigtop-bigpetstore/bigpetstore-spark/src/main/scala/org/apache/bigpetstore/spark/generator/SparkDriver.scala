@@ -150,7 +150,7 @@ object SparkDriver {
       (index, custIter) =>
         // Create a new RNG
         val transactionIter = custIter.map{
-          customer => data.getTransactions
+          customer => datas.getTransactions
         }
       transactionIter
     }.flatMap(s => s)
@@ -178,7 +178,7 @@ object SparkDriver {
       t.getStore.getLocation.getCity + "," +
       t.getStore.getLocation.getState + "," +
       t.getCustomer.getId + "," +
-      t.getCustomer.getName.getFirst + "," +t.getCustomer.getName.getSecond + "," +
+      t.getCustomer.getName.getLeft + "," +t.getCustomer.getName.getRight + "," +
       t.getCustomer.getLocation.getZipcode + "," +
       t.getCustomer.getLocation.getCity + "," +
       t.getCustomer.getLocation.getState + "," +
