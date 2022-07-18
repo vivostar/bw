@@ -17,6 +17,7 @@
 subprojects {
   apply plugin: 'eclipse'
   apply plugin: 'java'
+  apply plugin: 'maven'
 
   Node xml = new XmlParser().parse("../pom.xml")
   group = xml.groupId.first().value().first()
@@ -26,6 +27,19 @@ subprojects {
     mavenLocal()
     mavenCentral()
   }
+  def localRepositoryPath = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+  install {
+        repositories {
+            mavenDeployer   { 
+                repository(url: localRepositoryPath)
+                pom.project {
+                    name = project.name     
+                    version = project.version   
+                    groupId = project.group    
+                }
+            }
+        }
+    }
 
   test {
     // show standard out and error on console
