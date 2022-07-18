@@ -49,8 +49,8 @@ description = """"""
 // There is an open issue here: http://issues.gradle.org/browse/GRADLE-3023
 // There is talk of this being resolved in the next version of gradle. Till then,
 // we are stuck with java 7. But we do have scala if we want more syntactic sugar.
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 // Specify any additional project properties.
 ext {
@@ -63,10 +63,8 @@ shadowJar {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
-    maven {
-        url "http://dl.bintray.com/rnowling/bigpetstore"
-    }
 }
 
 tasks.withType(AbstractCompile) {
@@ -77,7 +75,7 @@ tasks.withType(AbstractCompile) {
 tasks.withType(ScalaCompile) {
     // Enables incremental compilation.
     // http://www.gradle.org/docs/current/userguide/userguide_single.html#N12F78
-    scalaCompileOptions.useAnt = false
+    scalaCompileOptions.metaClass.useAnt = false
 }
 
 tasks.withType(Test) {
@@ -122,7 +120,7 @@ dependencies {
     compile "org.apache.spark:spark-sql_${scalaVersion}:${sparkVersion}"
     compile "org.apache.spark:spark-graphx_${scalaVersion}:${sparkVersion}"
     compile "org.apache.spark:spark-hive_${scalaVersion}:${sparkVersion}"
-    compile "com.github.rnowling.bigpetstore:bigpetstore-data-generator:0.2.1"
+    compile "org.apache.bigtop:bigpetstore-data-generator:3.2.0-SNAPSHOT"
     compile "joda-time:joda-time:2.7"
     compile "org.json4s:json4s-jackson_2.10:3.1.0"
 

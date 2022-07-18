@@ -17,10 +17,11 @@
 
 package org.apache.bigtop.bigpetstore.spark.generator
 
-import com.github.rnowling.bps.datagenerator.datamodels.inputs.ZipcodeRecord
-import com.github.rnowling.bps.datagenerator.datamodels._
-import com.github.rnowling.bps.datagenerator.{DataLoader,StoreGenerator,CustomerGenerator => CustGen, PurchasingProfileGenerator,TransactionGenerator}
-import com.github.rnowling.bps.datagenerator.framework.SeedFactory
+// import com.github.rnowling.bps.datagenerator.datamodels.inputs.ZipcodeRecord
+import org.apache.bigtop.datagenerators.bigpetstore.cli.Simulation
+import org.apache.bigtop.datagenerators.bigpetstore.datamodels._ 
+import org.apache.bigtop.datagenerators.bigpetstore.{DataLoader,StoreGenerator,CustomerGenerator => CustGen, PurchasingModelGenerator,TransactionGenerator}
+import org.apache.bigtop.datagenerators.samplers.SeedFactory
 import scala.collection.JavaConversions._
 import org.apache.spark.{SparkContext, SparkConf}
 import org.apache.spark.SparkContext._
@@ -121,28 +122,19 @@ object SparkDriver {
   def generateData(sc: SparkContext): RDD[Transaction] = {
     val inputData = new DataLoader().loadData()
     val seedFactory = new SeedFactory(seed)
-
+    println("Generating datas...")
+    val datas = new Simulation(inputData, nStores, nCustomers, 1, simulationLength, seedFactory.getNextSeed)
     println("Generating stores...")
-    val stores : ArrayList[Store] = new ArrayList()
-    val storeGenerator = new StoreGenerator(inputData, seedFactory)
-    for(i <- 1 to nStores) {
-      val store = storeGenerator.generate()
-      stores.add(store)
-    }
+    val stores = datas.getStores
     println("Done.")
 
     println("Generating customers...")
-    var customers: List[Customer] = List()
-    val custGen = new CustGen(inputData, stores, seedFactory)
-    for(i <- 1 to nCustomers) {
-      val customer = custGen.generate()
-      customers = customer :: customers
-    }
+    var customers = datas.getCustomers
     println("...Done generating customers.")
 
     println("Broadcasting stores and products...")
     val storesBC = sc.broadcast(stores)
-    val productBC = sc.broadcast(inputData.getProductCategories())
+    val productBC = sc.broadcast(datas.getProductCategories())
     val customerRDD = sc.parallelize(customers)
     val simLen = simulationLength
     val nextSeed = seedFactory.getNextSeed()
@@ -162,7 +154,7 @@ object SparkDriver {
         customer =>
 	  val products = productBC.value
           //Create a new purchasing profile.
-          val profileGen = new PurchasingProfileGenerator(products, seedFactory)
+          val profileGen = new PurchasingModelGenerator(products, seedFactory)
           val profile = profileGen.generate()
           val transGen = new TransactionGenerator(customer, profile, storesBC.value, products, seedFactory)
           var transactions : List[Transaction] = List()
