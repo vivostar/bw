@@ -5,7 +5,7 @@ echo -e "\033[32mCreating network bigtop\033[0m"
 docker network create --driver bridge bigtop
 
 echo -e "\033[32mCreating docker cluster master\033[0m"
-docker run -d -p 50070:50070 -p 8088:8088 -p 10000:10000 -p 8080:9080--name master --hostname master --network bigtop --privileged -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro bigtop:3.1.0 /usr/sbin/init
+docker run -d -p 50070:50070 -p 8088:8088 -p 10000:10000 -p 8080:9080 --name master --hostname master --network bigtop --privileged -e "container=docker" -v /sys/fs/cgroup:/sys/fs/cgroup:ro bigtop:3.1.0 /usr/sbin/init
 SERVER_PUB_KEY=`docker exec master /bin/cat /root/.ssh/id_rsa.pub`
 docker exec master bash -c "echo '$SERVER_PUB_KEY' > /root/.ssh/authorized_keys"
 docker exec master /bin/systemctl enable sshd
