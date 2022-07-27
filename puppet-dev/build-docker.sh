@@ -37,10 +37,10 @@ docker exec worker02 bash -c "echo '$WORKER01_IP      worker01' >> /etc/hosts"
 # docker exec --user root hue bash -c "echo '$WORKER02_IP      worker02' >> /etc/hosts"
 
 echo -e "\033[32mStarting deploy bigtop cluster worker01\033[0m"
-docker exec worker01 bash -c "puppet apply --detailed-exitcodes --parser future --hiera_config=/etc/puppet/hiera.yaml --modulepath=/bigtop_home/bigtop-deploy/puppet/modules:/etc/puppet/modules:/usr/share/puppet/modules:/etc/puppetlabs/code/modules:/etc/puppet/code/modules /bigtop_home/bigtop-deploy/puppet/manifests"
+docker exec worker01 bash -c "puppet apply --detailed-exitcodes --parser future --hiera_config=/etc/puppet/hiera.yaml --modulepath=/bigtop-home/bigtop-deploy/puppet/modules:/etc/puppet/modules:/usr/share/puppet/modules:/etc/puppetlabs/code/modules:/etc/puppet/code/modules /bigtop-home/bigtop-deploy/puppet/manifests"
 
 echo -e "\033[32mStarting deploy bigtop cluster worker02\033[0m"
-docker exec worker02 bash -c "puppet apply --detailed-exitcodes --parser future --hiera_config=/etc/puppet/hiera.yaml --modulepath=/bigtop_home/bigtop-deploy/puppet/modules:/etc/puppet/modules:/usr/share/puppet/modules:/etc/puppetlabs/code/modules:/etc/puppet/code/modules /bigtop_home/bigtop-deploy/puppet/manifests"
+docker exec worker02 bash -c "puppet apply --detailed-exitcodes --parser future --hiera_config=/etc/puppet/hiera.yaml --modulepath=/bigtop-home/bigtop-deploy/puppet/modules:/etc/puppet/modules:/usr/share/puppet/modules:/etc/puppetlabs/code/modules:/etc/puppet/code/modules /bigtop-home/bigtop-deploy/puppet/manifests"
 
 echo -e "\033[32mStarting deploy bigtop cluster master\033[0m"
-docker exec master bash -c "puppet apply --detailed-exitcodes --parser future --hiera_config=/etc/puppet/hiera.yaml --modulepath=/bigtop_home/bigtop-deploy/puppet/modules:/etc/puppet/modules:/usr/share/puppet/modules:/etc/puppetlabs/code/modules:/etc/puppet/code/modules /bigtop_home/bigtop-deploy/puppet/manifests"
+docker exec master bash -c "puppet apply --detailed-exitcodes --parser future --hiera_config=/etc/puppet/hiera.yaml --modulepath=/bigtop-home/bigtop-deploy/puppet/modules:/etc/puppet/modules:/usr/share/puppet/modules:/etc/puppetlabs/code/modules:/etc/puppet/code/modules /bigtop-home/bigtop-deploy/puppet/manifests"
