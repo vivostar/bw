@@ -57,10 +57,13 @@ class spark {
       require => Package['spark-thriftserver'],
     }
 
-    exec { "create spark dir":
+    exec { 'create spark dir':
       path    => ['/bin','/sbin','/usr/bin','/usr/sbin'],
       command => 'su -s /bin/bash hdfs -c "/usr/lib/bigtop-groovy/bin/groovy -classpath $(hadoop classpath) /usr/lib/hadoop/libexec/init-hcfs.groovy /usr/lib/hadoop/libexec/create-spark-dir.json"',
-      require => File['/usr/lib/hadoop/libexec/create-spark-dir.json'],
+      require => [
+         File['/usr/lib/hadoop/libexec/create-spark-dir.json'],
+         Exec['init hdfs'],
+      ]
     }
 
     service { 'spark-thriftserver':
@@ -69,6 +72,7 @@ class spark {
         Package['spark-thriftserver'],
         File['/etc/spark/conf/spark-env.sh'],
         File['/etc/spark/conf/spark-defaults.conf'],
+        Exec['create spark dir']
       ],
       hasrestart => true,
       hasstatus  => true,
