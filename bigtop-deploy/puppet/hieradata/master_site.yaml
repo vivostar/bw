@@ -14,18 +14,20 @@ bigtop::roles:
 - zookeeper-server 
 - hive-client
 - hive-metastore
-- tez-client
-- hive-server2
-- httpfs-server
-- oozie-server
+# - tez-client
+# - hive-server2
+# - httpfs-server
+# - oozie-server
 - hadoop-client
 - spark-on-yarn
+- spark-thriftserver
 # - zeppelin-server
 bigtop::bigtop_repo_uri: ["http://repos.bigtop.apache.org/releases/3.1.0/centos/7/$basearch"]
 hadoop_hive::common_config::hive_execution_engine: "tez"
 hadoop::common::use_tez: true
 # hadoop::common_mapred_app::mapreduce_framework_name: "yarn-tez"
-hadoop::common_yarner_scheduler_cla::yarn_resourcemanagss: org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler
+hadoop::common_yarn::yarn_resourcemanager_scheduler_class: org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler
+hadoop::common_yarn::yarn_scheduler_capacity_maximum_am_resource_percent: 0.5
 hadoop_hive::common_config::hive_tez_container_size: 1024
 hadoop_hive::common_config::hive_tez_cpu_vcores: 1
 hadoop_hive::common_config::hive_server2_enable_doAs: false
