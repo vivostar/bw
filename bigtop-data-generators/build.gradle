@@ -27,20 +27,17 @@ subprojects {
     mavenLocal()
     mavenCentral()
   }
-  def localRepositoryPath = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
-  install {
-        repositories {
-            mavenDeployer   { 
-                repository(url: localRepositoryPath)
-                pom.project {
-                    name = project.name     
-                    version = project.version   
-                    groupId = project.group    
-                }
-            }
-        }
-    }
 
+  install {
+    repositories.mavenInstaller {
+        pom.project {
+        name = project.name     
+        version = project.version   
+        groupId = project.group    
+      }
+    }
+  }
+  
   test {
     // show standard out and error on console
     testLogging.showStandardStreams = true
