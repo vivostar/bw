@@ -58,7 +58,7 @@ object SparkETL {
   }
 
   def readRawData(sc: SparkContext, inputDir: String): RDD[String] = {
-    val rawRecords = sc.textFile(inputDir + "/transactions")
+    val rawRecords = sc.textFile(inputDir + "/transactions.txt")
       .flatMap(_.split("\n"))
 
     rawRecords
