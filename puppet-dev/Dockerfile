@@ -13,5 +13,5 @@ RUN /bin/sed -i 's,#   StrictHostKeyChecking ask,StrictHostKeyChecking no,g' /et
 
 RUN ssh-keygen -f "/root/.ssh/id_rsa" -N ""
 
-RUN wget -O /etc/yum.repos.d/bigtop.repo https://downloads.apache.org/bigtop/bigtop-3.1.0/repos/centos-7/bigtop.repo
+RUN wget -O /etc/yum.repos.d/bigtop.repo https://dlcdn.apache.org/bigtop/bigtop-3.1.1/repos/centos-7/bigtop.repo --no-check-certificate
 EXPOSE 1-65535
